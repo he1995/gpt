@@ -20,6 +20,11 @@ public class ChatMessage {
     @JsonIgnore
     private Mask mask;
 
+    @ManyToOne
+    @JoinColumn(name = "session_id")
+    @JsonIgnore
+    private ChatSession session;
+
     public String getId() {
         return id;
     }
@@ -58,5 +63,13 @@ public class ChatMessage {
 
     public void setMask(Mask mask) {
         this.mask = mask;
+    }
+
+    public ChatSession getSession() {
+        return session;
+    }
+
+    public void setSession(ChatSession session) {
+        this.session = session;
     }
 }
