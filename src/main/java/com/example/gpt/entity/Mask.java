@@ -7,6 +7,8 @@ import java.util.List;
 @Entity
 public class Mask {
 
+    //hello
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
