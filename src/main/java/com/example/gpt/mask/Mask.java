@@ -1,5 +1,6 @@
-package com.example.gpt.entity;
+package com.example.gpt.mask;
 
+import com.example.gpt.session.ChatMessage;
 import jakarta.persistence.*;
 
 import java.util.List;

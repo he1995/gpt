@@ -1,9 +1,5 @@
-package com.example.gpt.controller;
+package com.example.gpt.session;
 
-import com.example.gpt.entity.ChatMessage;
-import com.example.gpt.entity.ChatSession;
-import com.example.gpt.repository.ChatMessageRepository;
-import com.example.gpt.repository.ChatSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

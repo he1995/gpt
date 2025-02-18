@@ -1,5 +1,6 @@
-package com.example.gpt.entity;
+package com.example.gpt.session;
 
+import com.example.gpt.mask.Mask;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
