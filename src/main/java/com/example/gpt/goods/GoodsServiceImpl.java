@@ -15,4 +15,9 @@ public class GoodsServiceImpl implements IGoodsService{
     public Iterable<Goods> getAllGoods() {
         return goodsRepository.findAll();
     }
+
+    @Override
+    public Goods getGoods(long id) {
+        return goodsRepository.findById(id).get();
+    }
 }

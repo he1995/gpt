@@ -21,7 +21,7 @@ public class UserController {
     public ResponseResult<SaTokenInfo> login(@RequestParam String username, @RequestParam String password) {
         User user = userService.findUserByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
-            StpUtil.login(user);
+            StpUtil.login(username);
             return ResponseResult.success(StpUtil.getTokenInfo());
         }
         return ResponseResult.fail(null, "login fail");
