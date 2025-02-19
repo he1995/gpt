@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum OrderStatus {
-    UNPAID(1),
-    CANCELLED(2),
-    PAID(3),
-    FINISHED(4);
+    UNPAID(0),
+    CANCELLED(1),
+    PAID(2),
+    FINISHED(3);
 
     private final int code;
 

@@ -1,16 +1,13 @@
 package com.example.gpt.order;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
 @Entity
-public class OrderItem {
+public class OrderInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     private String name;
@@ -19,7 +16,7 @@ public class OrderItem {
 
     private String delivery;
 
-    private int status;
+    private OrderStatus status;
 
     private String price;
 

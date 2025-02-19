@@ -23,31 +23,35 @@ public class OrderController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    @PostMapping("add")
-    public ResponseResult<OrderItem> addOrder(
+    @PostMapping("create")
+    public ResponseResult<OrderInfo> createOrder(
+            @RequestParam String name,
             @RequestParam String email,
+            @RequestParam String realPrice,
+            @RequestParam String delivery,
             @RequestParam String payMethod) {
         String orderId = UUID.randomUUID().toString();
-        OrderItem orderItem = new OrderItem();
-        orderItem.setId(orderId);
-        orderItem.setEmail(email);
-        orderItem.setPayMethod(payMethod);
-        orderItem.setName("智能助手月度会员");
-        orderItem.setPrice("￥20");
-        orderItem.setDelivery("自动发货");
-        orderItem.setCreateTime(new Date().toString());
-        orderItem.setStatus(OrderStatus.UNPAID.getCode());
-        orderItem.setUsername((String) StpUtil.getLoginId());
-        orderService.createOrder(orderItem);
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setId(orderId);
+        orderInfo.setEmail(email);
+        orderInfo.setPayMethod(payMethod);
+        orderInfo.setName(name);
+        orderInfo.setPrice(realPrice);
+        orderInfo.setDelivery(delivery);
+        orderInfo.setCreateTime(new Date().toString());
+        orderInfo.setStatus(OrderStatus.UNPAID);
+        orderInfo.setUsername((String) StpUtil.getLoginId());
+        orderService.createOrder(orderInfo);
 
         log.info("{}:订单：【{}】创建成功",new Date(), orderId);
+        //10 seconds expire for testing
         redisTemplate.opsForValue().set(orderId, "1",10, TimeUnit.SECONDS);
 
-        return ResponseResult.success(orderItem);
+        return ResponseResult.success(orderInfo);
     }
 
     @RequestMapping("all")
-    public ResponseResult<Iterable<OrderItem>> getAllGoods() {
+    public ResponseResult<Iterable<OrderInfo>> getAllGoods() {
         return ResponseResult.success(orderService.getOrders());
     }
 }

@@ -12,12 +12,19 @@ public class OrderService implements IOrderService {
 
     @Override
     @Cacheable("orders")
-    public Iterable<OrderItem> getOrders() {
+    public Iterable<OrderInfo> getOrders() {
         return orderRepository.findAll();
     }
 
     @Override
-    public void createOrder(OrderItem orderItem) {
-        orderRepository.save(orderItem);
+    public void createOrder(OrderInfo orderInfo) {
+        orderRepository.save(orderInfo);
+    }
+
+    @Override
+    public void cancelOrder(String orderId) {
+        OrderInfo order = orderRepository.findById(orderId).get();
+        order.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(order);
     }
 }
