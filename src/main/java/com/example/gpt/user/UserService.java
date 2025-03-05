@@ -11,7 +11,7 @@ public class UserService implements IUserService {
     private UserRepository userRepository;
 
     @Override
-    @Cacheable("users")
+    @Cacheable("user")
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }

@@ -1,13 +1,9 @@
 package com.example.gpt.user;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.gpt.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -17,14 +13,20 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @RequestMapping("login")
-    public ResponseResult<SaTokenInfo> login(@RequestParam String username, @RequestParam String password) {
-        User user = userService.findUserByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            StpUtil.login(username);
-            return ResponseResult.success(StpUtil.getTokenInfo());
+    @PostMapping("login")
+    public ResponseResult<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        User user = userService.findUserByUsername(loginRequest.username());
+        if (user != null && user.getPassword().equals(loginRequest.password())) {
+            StpUtil.login(user);
+            return ResponseResult.success(new LoginResponse(StpUtil.getTokenInfo(), user));
         }
         return ResponseResult.fail(null, "login fail");
+    }
+
+    @GetMapping("logout")
+    public ResponseResult<String> logout() {
+        StpUtil.logout();
+        return ResponseResult.success("logout success");
     }
 
     @RequestMapping("hello")

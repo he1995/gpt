@@ -4,6 +4,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.example.gpt.utils.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,13 +47,21 @@ public class OrderController {
 
         log.info("{}:订单：【{}】创建成功",new Date(), orderId);
         //10 seconds expire for testing
-        redisTemplate.opsForValue().set(orderId, "1",10, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(orderId, "1",10, TimeUnit.MINUTES);
 
         return ResponseResult.success(orderInfo);
     }
 
-    @RequestMapping("all")
-    public ResponseResult<Iterable<OrderInfo>> getAllGoods() {
-        return ResponseResult.success(orderService.getOrders());
+    @RequestMapping("/{pageNum}")   // localhost:8080/order/0?pageNumber=6&pageSize=2
+    public ResponseResult<Iterable<OrderInfo>> getOrders(@PathVariable int pageNum, @RequestParam int pageSize) {
+        return ResponseResult.success(orderService.getOrders(PageRequest.of(pageNum, pageSize)).getContent());
+    }
+
+    @RequestMapping("/find")
+    public ResponseResult<Page<OrderInfo>> findByEmail(
+            @RequestParam String email,
+            @RequestParam int pageNum,
+            @RequestParam int pageSize) {
+        return ResponseResult.success(orderService.findByEmail(email, PageRequest.of(pageNum, pageSize)));
     }
 }
