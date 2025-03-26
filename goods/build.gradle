@@ -1,0 +1,12 @@
+dependencies {
+    implementation project(':common')
+
+    implementation 'com.alibaba:druid-spring-boot-3-starter:1.2.24'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation ('org.apache.shardingsphere:shardingsphere-jdbc:5.5.2') {
+        exclude group: 'org.apache.shardingsphere', module: 'shardingsphere-test-util'
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
+}
+

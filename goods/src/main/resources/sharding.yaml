@@ -1,0 +1,41 @@
+dataSources:
+  ds:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/db_gpt?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&characterEncoding=utf8
+    username: root
+    password: 123456
+
+
+mode:
+  type: Standalone
+  repository:
+    type: JDBC
+databaseName: db_gpt
+
+rules:
+  - !SINGLE
+    tables:
+      - "*.*"
+  - !SHARDING
+    tables:
+      goods:
+        actualDataNodes: ds.goods_${0..1}
+        tableStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: goods_inline
+    bindingTables:
+      - goods
+    shardingAlgorithms:
+      goods_inline:
+        type: INLINE
+        props:
+          algorithm-expression: goods_${id % 2}
+
+props:
+  sql-show: true
+
+
+
+

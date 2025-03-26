@@ -8,3 +8,9 @@ pluginManagement {
 }
 
 rootProject.name = 'gpt'
+
+include 'mask'
+include 'common'
+include 'session'
+include 'goods'
+include 'order'

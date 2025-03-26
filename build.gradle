@@ -4,14 +4,16 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-
-java {
-	sourceCompatibility = '17'
-}
-
+// 所有子模块的公共配置
 allprojects {
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	group = 'com.example'
+	version = '1.0.0'
+	sourceCompatibility = '17'
+
 	repositories {
 
 		mavenLocal()
@@ -26,8 +28,23 @@ allprojects {
 
 		mavenCentral()
 	}
-}
 
+	// 公共依赖（所有子模块共享）
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'com.mysql:mysql-connector-j'
+		compileOnly 'org.projectlombok:lombok:1.18.36'
+		annotationProcessor 'org.projectlombok:lombok:1.18.36'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	}
+
+	// 测试配置
+	test {
+		useJUnitPlatform()
+	}
+}
 
 dependencies {
 	implementation ('org.springframework.boot:spring-boot-starter-data-jpa')
