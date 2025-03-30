@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    druid:
+      initial-size: 5
+      min-idle: 10
+      max-active: 20
+      validation-query: SELECT 1
+      filters: config,stat,slf4j
+      # 统计 SQL 执行情况
+      stat:
+        merge-sql: true
+        log-slow-sql: true
+        slow-sql-millis: 5000
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        #不统计这些请求数据
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+      #访问监控网页的登录用户名和密码
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: admin
+        login-password: admin

@@ -1,1 +1,2 @@
 com.example.common.config.RedisConfig
+com.example.common.config.SaTokenConfig

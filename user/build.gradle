@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':common')
+    implementation 'cn.dev33:sa-token-spring-boot3-starter:1.41.0'
+}
+

@@ -1,4 +1,4 @@
-package com.example.gpt.config;
+package com.example.common.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
@@ -18,4 +18,3 @@ public class SaTokenConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/druid/**")    ;
     }
 }
-

@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':common')
+    implementation 'com.alipay.sdk:alipay-easysdk:2.2.3'
+}
+

@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      serverAddr: 127.0.0.1:8848
+  config:
+    import:
+      - nacos:nacos-config-example.properties?refreshEnabled=true

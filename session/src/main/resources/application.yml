@@ -1,6 +1,8 @@
 spring:
   application:
     name: session
+  config:
+    import: classpath:druid.yml, classpath:nacos.yml
 
   datasource:
     url: jdbc:mysql://localhost:3306/db_gpt?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&characterEncoding=utf8

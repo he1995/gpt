@@ -1,3 +1,14 @@
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'cn.dev33:sa-token-spring-boot3-starter:1.41.0'
+    // Sa-Token 整合 RedisTemplate
+    implementation 'cn.dev33:sa-token-redis-template:1.41.0'
+
+// 提供 Redis 连接池
+    implementation 'org.apache.commons:commons-pool2'
+    implementation 'com.alibaba:druid-spring-boot-3-starter:1.2.24'
+
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2023.0.3.2'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2023.0.3.2'
+
 }
