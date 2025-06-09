@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':common')
     implementation 'com.alipay.sdk:alipay-easysdk:2.2.3'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-stream-rocketmq:2023.0.3.2'
 }
 

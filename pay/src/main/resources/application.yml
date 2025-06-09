@@ -5,6 +5,19 @@ spring:
   config:
     import: classpath:druid.yml, classpath:nacos.yml
 
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: localhost:9876
+        bindings:
+          producer-out-0:
+            producer:
+              group: output_1
+      bindings:
+        producer-out-0:
+          destination: broadcast
+
   datasource:
     url: jdbc:mysql://localhost:3306/db_gpt?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&characterEncoding=utf8
     username: root

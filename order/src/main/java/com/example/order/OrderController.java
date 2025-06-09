@@ -25,24 +25,19 @@ public class OrderController {
     private StringRedisTemplate redisTemplate;
 
     @PostMapping("create")
-    public ResponseResult<OrderInfo> createOrder(
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String realPrice,
-            @RequestParam String delivery,
-            @RequestParam String payMethod,
-            @RequestParam String userName) {
+    public ResponseResult<OrderInfo> createOrder(@RequestBody OrderRequest orderRequest)
+             {
         String orderId = UUID.randomUUID().toString();
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(orderId);
-        orderInfo.setEmail(email);
-        orderInfo.setPayMethod(payMethod);
-        orderInfo.setName(name);
-        orderInfo.setPrice(realPrice);
-        orderInfo.setDelivery(delivery);
+        orderInfo.setEmail(orderRequest.email());
+        orderInfo.setPayMethod(orderRequest.payMethod());
+        orderInfo.setName(orderRequest.name());
+        orderInfo.setPrice(orderRequest.price());
+        orderInfo.setDelivery(orderRequest.delivery());
         orderInfo.setCreateTime(new Date().toString());
         orderInfo.setStatus(OrderStatus.UNPAID);
-        orderInfo.setUsername(userName);
+        orderInfo.setUsername(orderRequest.username());
         orderService.createOrder(orderInfo);
 
         log.info("{}:订单：【{}】创建成功",new Date(), orderId);

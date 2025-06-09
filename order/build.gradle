@@ -2,5 +2,6 @@ dependencies {
     implementation project(':common')
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-stream-rocketmq:2023.0.3.2'
 }
 

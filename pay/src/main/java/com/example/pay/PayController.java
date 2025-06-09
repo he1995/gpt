@@ -6,11 +6,12 @@ import com.alipay.easysdk.kernel.util.ResponseChecker;
 import com.alipay.easysdk.payment.common.models.AlipayTradeCloseResponse;
 import com.alipay.easysdk.payment.common.models.AlipayTradeQueryResponse;
 import com.alipay.easysdk.payment.page.models.AlipayTradePagePayResponse;
+import com.example.common.message.PaySuccessMessage;
 import com.example.common.utils.ResponseResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.messaging.support.GenericMessage;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -19,16 +20,23 @@ import java.util.Objects;
 @RequestMapping("/pay")
 public class PayController {
 
+    @Autowired
+    private StreamBridge streamBridge;
+
     @RequestMapping("begin")
-    public String begin() {
+    public String begin(
+            @RequestParam String subject,
+            @RequestParam String outTradeNo,
+            @RequestParam String totalAmount
+    ) {
         // 1. 设置参数（全局只需设置一次）
         Factory.setOptions(getOptions());
         try {
             // 2. 发起API调用
             AlipayTradePagePayResponse response = Factory.Payment.Page().pay(
-                    "Apple iPhone11 128G",
-                    "2234567891",
-                    "0.01",
+                    subject,
+                    outTradeNo,
+                    totalAmount,
                     ""
             );
             // 3. 处理响应或异常
@@ -46,17 +54,18 @@ public class PayController {
     }
 
     @GetMapping("query")
-    public ResponseResult<String> query() {
+    public ResponseResult<String> query(@RequestParam String outTradeNo) {
         // 1. 设置参数（全局只需设置一次）
         Factory.setOptions(getOptions());
         try {
             // 2. 发起API调用
-            AlipayTradeQueryResponse response = Factory.Payment.Common().query("2234567890");
+            AlipayTradeQueryResponse response = Factory.Payment.Common().query(outTradeNo);
 
             // 3. 处理响应或异常
             if (ResponseChecker.success(response)) {
                 System.out.println("调用成功: " + response.getBody());
                 if (Objects.equals(response.getTradeStatus(), "TRADE_SUCCESS")) {}
+                streamBridge.send("producer-out-0", new GenericMessage<>(new PaySuccessMessage(outTradeNo)));
                 return ResponseResult.success();
             } else {
                 System.err.println("调用失败");
